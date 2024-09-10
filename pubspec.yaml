@@ -10,12 +10,32 @@ environment:
   sdk: ^3.5.1
 
 dependencies:
+  # State Management
+  flutter_bloc: ^8.1.6
   #Navigation
   go_router: ^14.2.7
   #Splash Screen
   flutter_native_splash: ^2.4.1
   # App Icon
   flutter_launcher_icons: ^0.13.1
+  # Code generator mainly used with cubit
+  freezed: ^2.5.7
+  # Annotations for the freezed code-generator
+  freezed_annotation: ^2.4.4
+  # Dependency Injection
+  get_it: ^7.7.0
+  # Automatically generate code for converting to and from JSON by annotating Dart classes.
+  json_serializable: ^6.8.0
+  # Annotation for the Json Serializable code generator
+  json_annotation: ^4.9.0
+  # Networking
+  dio: ^5.7.0
+  retrofit: ^4.4.1
+  retrofit_generator: ^9.1.1
+  pretty_dio_logger: ^1.4.0
+  # Localization
+  intl: ^0.19.0
+  easy_localization: ^3.0.7
 
   flutter:
     sdk: flutter
