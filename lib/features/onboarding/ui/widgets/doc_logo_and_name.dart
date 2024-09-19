@@ -19,7 +19,7 @@ class DocLogoAndName extends StatelessWidget {
         ),
         Text(
           'TapDoc',
-          style: Styles.font24Black700Wight,
+          style: Styles.font24BlackBold,
         )
       ],
     );
