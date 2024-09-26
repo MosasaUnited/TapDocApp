@@ -1,6 +1,10 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tap_doc_app/core/di/dependency_injection.dart';
+import 'package:tap_doc_app/features/login/logic/login_cubit.dart';
 import 'package:tap_doc_app/features/onboarding/ui/onboarding_view.dart';
 
+import '../../features/home/ui/home_view.dart';
 import '../../features/login/ui/login_view.dart';
 
 abstract class AppRouter {
@@ -16,12 +20,15 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kLogin,
-        builder: (context, state) => const LoginView(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<LoginCubit>(),
+          child: const LoginView(),
+        ),
       ),
-      // GoRoute(
-      //   path: kHome,
-      //   builder: (context, state) =>  HomeView(),
-      // ),
+      GoRoute(
+        path: kHome,
+        builder: (context, state) => const HomeView(),
+      ),
     ],
   );
 }

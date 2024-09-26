@@ -40,6 +40,8 @@ dependencies:
   flutter_screenutil: ^5.9.3
   #SVG Imports
   flutter_svg: ^2.0.10+1
+  #A build system for Dart code generation and modular compilation
+  build_runner: ^2.4.12
 
 
   flutter:

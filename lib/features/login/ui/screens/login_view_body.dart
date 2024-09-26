@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tap_doc_app/core/helpers/spacing.dart';
 import 'package:tap_doc_app/core/widgets/app_text_button.dart';
-import 'package:tap_doc_app/core/widgets/app_text_form_field.dart';
+import 'package:tap_doc_app/features/login/data/models/login_request_body.dart';
+import 'package:tap_doc_app/features/login/logic/login_cubit.dart';
 import 'package:tap_doc_app/features/login/ui/widgets/already_have_account_text.dart';
 
 import '../../../../core/theme/styles.dart';
+import '../widgets/email_and_password.dart';
+import '../widgets/login_bloc_listener.dart';
 import '../widgets/terms_and_conditions_text.dart';
 
-class LoginViewBody extends StatefulWidget {
+class LoginViewBody extends StatelessWidget {
   const LoginViewBody({super.key});
-
-  @override
-  State<LoginViewBody> createState() => _LoginViewBodyState();
-}
-
-class _LoginViewBodyState extends State<LoginViewBody> {
-  final formKey = GlobalKey<FormState>();
-
-  bool isObscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -26,41 +21,24 @@ class _LoginViewBodyState extends State<LoginViewBody> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 30.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Welcome Back',
-                style: Styles.font24BlueBold,
-              ),
-              verticalSpace(8),
-              // TODO: Add Text That Exist on Figma Design
-              Text(
-                'We\'re excited to have you back, can\'t wait to ',
-                style: Styles.font14GreyRegular,
-              ),
-              verticalSpace(36),
-              Form(
-                child: Column(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Welcome Back',
+                  style: Styles.font24BlueBold,
+                ),
+                verticalSpace(8),
+                // TODO: Add Text That Exist on Figma Design
+                Text(
+                  'We\'re excited to have you back, can\'t wait to see what you\'ve been up to!',
+                  style: Styles.font14GreyRegular,
+                ),
+                verticalSpace(36),
+                Column(
                   children: [
-                    const AppTextFormField(hintText: 'Email'),
-                    verticalSpace(18),
-                    AppTextFormField(
-                      hintText: 'Password',
-                      isObscureText: isObscureText,
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isObscureText = !isObscureText;
-                          });
-                        },
-                        child: Icon(
-                          isObscureText
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                      ),
-                    ),
+                    const EmailAndPassword(),
                     verticalSpace(24),
                     Align(
                       alignment: AlignmentDirectional.centerEnd,
@@ -73,19 +51,33 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                     AppTextButton(
                       buttonText: 'Login',
                       textStyle: Styles.font16WhiteSemiBold,
-                      onPressed: () {},
+                      onPressed: () {
+                        validateThenLogin(context);
+                      },
                     ),
                     verticalSpace(16),
                     const TermsAndConditionsText(),
                     verticalSpace(60),
                     const AlreadyHaveAccountText(),
+                    const LoginBlocListener(),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+}
+
+void validateThenLogin(BuildContext context) {
+  if (context.read<LoginCubit>().formKey.currentState!.validate()) {
+    context.read<LoginCubit>().emitLoginStates(
+          LoginRequestBody(
+            email: context.read<LoginCubit>().emailController.text,
+            password: context.read<LoginCubit>().passwordController.text,
+          ),
+        );
   }
 }
