@@ -3,9 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tap_doc_app/core/helpers/spacing.dart';
 import 'package:tap_doc_app/core/widgets/app_text_button.dart';
-import 'package:tap_doc_app/features/login/data/models/login_request_body.dart';
 import 'package:tap_doc_app/features/login/logic/login_cubit.dart';
-import 'package:tap_doc_app/features/login/ui/widgets/already_have_account_text.dart';
+import 'package:tap_doc_app/features/login/ui/widgets/dont_have_account.dart';
 
 import '../../../../core/theme/styles.dart';
 import '../widgets/email_and_password.dart';
@@ -58,7 +57,7 @@ class LoginViewBody extends StatelessWidget {
                     verticalSpace(16),
                     const TermsAndConditionsText(),
                     verticalSpace(60),
-                    const AlreadyHaveAccountText(),
+                    const DontHaveAccountText(),
                     const LoginBlocListener(),
                   ],
                 ),
@@ -73,11 +72,6 @@ class LoginViewBody extends StatelessWidget {
 
 void validateThenLogin(BuildContext context) {
   if (context.read<LoginCubit>().formKey.currentState!.validate()) {
-    context.read<LoginCubit>().emitLoginStates(
-          LoginRequestBody(
-            email: context.read<LoginCubit>().emailController.text,
-            password: context.read<LoginCubit>().passwordController.text,
-          ),
-        );
+    context.read<LoginCubit>().emitLoginStates();
   }
 }
